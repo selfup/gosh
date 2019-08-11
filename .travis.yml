@@ -1,0 +1,4 @@
+language: golang
+
+notifications:
+  email: false
