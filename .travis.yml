@@ -1,4 +1,10 @@
-language: go
+language: minimal
+
+services:
+  - docker
+
+before_install:
+  ./scripts/ci_test.sh
 
 notifications:
   email: false
