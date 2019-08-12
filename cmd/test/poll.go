@@ -10,16 +10,16 @@ import (
 )
 
 func main() {
-	currentTime := time.Now()
+	watchStart := time.Now()
 
 	scnnr := FindGoFiles{
 		Directory: ".",
 	}
 
-	poll(scnnr, currentTime)
+	poll(scnnr, watchStart)
 }
 
-func poll(scnnr FindGoFiles, currentTime time.Time) {
+func poll(scnnr FindGoFiles, watchStart time.Time) {
 	err := scnnr.Scan()
 	if err != nil {
 		panic(err)
@@ -31,8 +31,8 @@ func poll(scnnr FindGoFiles, currentTime time.Time) {
 			fmt.Println(err)
 		}
 
-		if info.ModTime().Unix() > currentTime.Unix() {
-			cmd := exec.Command("go", "test")
+		if info.ModTime().Unix() > watchStart.Unix() {
+			cmd := exec.Command("go", "test", "./...")
 			cmd.Stdin = os.Stdin
 			cmd.Stdout = os.Stdout
 			cmd.Stderr = os.Stderr
@@ -42,13 +42,13 @@ func poll(scnnr FindGoFiles, currentTime time.Time) {
 				log.Fatal(cmdErr)
 			}
 
-			currentTime = time.Now()
+			watchStart = time.Now()
 		}
 	}
 
 	time.Sleep(1 * time.Second)
 
-	poll(scnnr, currentTime)
+	poll(scnnr, watchStart)
 }
 
 // FindGoFiles holds cli args

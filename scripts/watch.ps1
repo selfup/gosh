@@ -1,1 +1,1 @@
-go run "scripts\cmd\test_poll.go"
+go run "cmd\test\poll.go"
