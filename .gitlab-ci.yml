@@ -14,4 +14,4 @@ test_lib:
     - docker:dind
 
   script:
-    - docker build -t gosh .
+    - ./scripts/ci_test.sh

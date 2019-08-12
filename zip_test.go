@@ -30,7 +30,7 @@ func TestZipUnZip(t *testing.T) {
 		t.Errorf("README.md not unzipped from repo.zip")
 	}
 
-	unZippedTestPoll := Fex("archive/scripts/cmd/test_poll.go")
+	unZippedTestPoll := Fex("archive/cmd/test/poll.go")
 	if !unZippedTestPoll {
 		t.Errorf("test_poll.go not unzipped from repo.zip")
 	}
