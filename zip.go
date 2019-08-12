@@ -74,3 +74,51 @@ func Zip(source string, target string) error {
 
 	return err
 }
+
+// Unzip - unzip archive -> destination
+func Unzip(archive string, destination string) error {
+	var fileNames []string
+
+	reader, err := zip.OpenReader(archive)
+	if err != nil {
+		return err
+	}
+
+	defer reader.Close()
+
+	for _, file := range reader.File {
+		fPath := filepath.Join(destination, file.Name)
+
+		fileNames = append(fileNames, fPath)
+
+		if file.FileInfo().IsDir() {
+			os.MkdirAll(fPath, os.ModePerm)
+			continue
+		}
+
+		if err = os.MkdirAll(filepath.Dir(fPath), os.ModePerm); err != nil {
+			return err
+		}
+
+		outFile, err := os.OpenFile(fPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, file.Mode())
+		if err != nil {
+			return err
+		}
+
+		rc, err := file.Open()
+		if err != nil {
+			return err
+		}
+
+		_, err = io.Copy(outFile, rc)
+
+		outFile.Close()
+		rc.Close()
+
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
