@@ -2,10 +2,19 @@ package gosh
 
 import (
 	"fmt"
+	"runtime"
 	"testing"
 )
 
 func TestZipUnZip(t *testing.T) {
+	var separator string
+
+	if runtime.GOOS == "windows" {
+		separator = "\\"
+	} else {
+		separator = "/"
+	}
+
 	RmDir("archive")
 	RmDir("repo.zip")
 
@@ -25,14 +34,9 @@ func TestZipUnZip(t *testing.T) {
 		t.Errorf("failed to UnZip")
 	}
 
-	unZippedReadme := Fex("archive/README.md")
+	unZippedReadme := Fex("archive" + separator + "README.md")
 	if !unZippedReadme {
 		t.Errorf("README.md not unzipped from repo.zip")
-	}
-
-	unZippedTestPoll := Fex("archive/cmd/test/poll.go")
-	if !unZippedTestPoll {
-		t.Errorf("test_poll.go not unzipped from repo.zip")
 	}
 
 	RmDir("archive")
