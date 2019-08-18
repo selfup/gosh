@@ -3,7 +3,6 @@ package gosh
 import (
 	"io/ioutil"
 	"os"
-	"runtime"
 )
 
 // MkDir is like mkdir -p
@@ -23,16 +22,8 @@ func RmDirChildren(dirPath string) error {
 		return err
 	}
 
-	var separator string
-
-	if runtime.GOOS == "windows" {
-		separator = "\\"
-	} else {
-		separator = "/"
-	}
-
 	for _, fileInDir := range dir {
-		RmDir(dirPath + separator + fileInDir.Name())
+		RmDir(dirPath + Slash() + fileInDir.Name())
 	}
 
 	return nil
