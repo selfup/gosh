@@ -92,11 +92,11 @@ func Unzip(archive string, destination string) error {
 		fileNames = append(fileNames, fPath)
 
 		if file.FileInfo().IsDir() {
-			os.MkdirAll(fPath, os.ModePerm)
+			MkDir(fPath)
 			continue
 		}
 
-		if err = os.MkdirAll(filepath.Dir(fPath), os.ModePerm); err != nil {
+		if err = MkDir(filepath.Dir(fPath)); err != nil {
 			return err
 		}
 
