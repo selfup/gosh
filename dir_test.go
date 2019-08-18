@@ -3,6 +3,8 @@ package gosh
 import "testing"
 
 func TestRmDirs(t *testing.T) {
+	MkDir("fixtures")
+
 	Wr("fixtures/rmDirChildOne.txt", []byte("contents"), 0777)
 	Wr("fixtures/rmDirChildTwo.txt", []byte("contents"), 0777)
 	Wr("fixtures/rmDirChildThree.txt", []byte("contents"), 0777)
