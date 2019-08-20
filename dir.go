@@ -5,6 +5,16 @@ import (
 	"os"
 )
 
+// Ls list directory info at the root level
+func Ls(dirPath string) ([]os.FileInfo, error) {
+	paths, err := ioutil.ReadDir(dirPath)
+	if err != nil {
+		return paths, err
+	}
+
+	return paths, nil
+}
+
 // MkDir is like mkdir -p
 func MkDir(path string) error {
 	return os.MkdirAll(path, os.ModePerm)
