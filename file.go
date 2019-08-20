@@ -5,7 +5,9 @@ import (
 	"os"
 )
 
-// Fex checks if a file exists
+// Fex checks if a file exists.
+// If the file in question is a Directory false is returned.
+// If the file is not a directory and os.Stat was succesful true is returned.
 func Fex(filename string) bool {
 	info, err := os.Stat(filename)
 	if os.IsNotExist(err) {
@@ -43,6 +45,17 @@ func Cp(source string, destination string) error {
 	}
 
 	return nil
+}
+
+// Rd returns the contents of a file as bytes.
+// Returns an empty []byte if the file could not be read.
+func Rd(source string) []byte {
+	contents, err := ioutil.ReadFile(source)
+	if err != nil {
+		return make([]byte, 0)
+	}
+
+	return contents
 }
 
 // Chmod takes in a slice of files to change modifications on
